@@ -1,11 +1,26 @@
-import { useSelector } from "react-redux/es/exports";
-import store from "./redux/store";
+import { useSelector, useDispatch } from "react-redux";
+import { increaseCount, decreaseCount } from "./redux/redux/actions/actionCreator";
 
 const App = () => {
-  const store = useSelector(store => store);
-  console.log(store);
+  const count = useSelector(store => store?.counter?.count);
+  console.log(count);
+  const dispatch = useDispatch();
+
+  const handleIncrease = () => {
+    dispatch(increaseCount());
+  };
+
+  const handleDecrease = () => {
+    dispatch(decreaseCount());
+  };
   
-  return (<h1>Hello word!!!</h1>)
+  return (
+    <div>
+      <h1>{count}</h1>
+      <button onCick={handleIncrease}>+1</button>
+      <button onCick={handleDecrease}>-1</button>
+    </div>
+  )
 }
 
 export default App;

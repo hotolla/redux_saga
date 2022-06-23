@@ -1,5 +1,9 @@
-import { createStore, compose } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
+import createSagaMiddleware from '@redux-saga/core';
 import reducer from './redux/reducers/index';
+import rootSaga from './redux/sagas';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const composeEnhancers =
   typeof window === 'object' &&
@@ -9,9 +13,12 @@ const composeEnhancers =
 const configureStore = preloadedState => createStore(
     reducer,
     preloadedState,
-    composeEnhancers()
+    composeEnhancers(applyMiddleware(sagaMiddleware))
 );
 
 const store = configureStore({});
 
+sagaMiddleware.run(rootSaga);
+
 export default store;
+//интегрировали сагу внутрь рекакт проекта
